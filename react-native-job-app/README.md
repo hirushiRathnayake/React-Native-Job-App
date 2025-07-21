@@ -1,60 +1,110 @@
-Got it! Here’s a clear, professional README template that **describes your app fully** and **includes screenshots**. You can just replace the placeholders and screenshots with your actual content:
+
+# React Native Job App
+
+![App Logo](./Screenshots/Splash screen.jpg)
 
 ---
 
-````markdown
-# Employee Directory - React Native App
+## Assessment Overview
 
-## About the App
+This project is a React Native mobile application developed as part of a **3-day React Native Assignment**. The assignment evaluates proficiency in React Native development, REST API integration, and core architectural principles.
 
-Employee Directory is a mobile application built with React Native to help manage employee information efficiently. This app features a modern design and core functionalities such as user authentication, employee search, adding/editing/deleting employee details, and displays inspirational quotes fetched from a REST API. It is optimized for both Android and iOS devices and includes offline data persistence.
+The app follows modern React Native practices and uses Git for version control, with meaningful commits after each feature implementation.
 
 ---
 
-## Features
+## Project Scenario
 
-- **Splash Screen:** Animated branding splash screen with Lottie animation.
-- **Login Screen:** Simple PIN-based login with input validation.
-- **Main Screen:**
-  - Displays a random inspirational quote fetched from a public API.
-  - Shows the 10 most recently added employees.
-  - Employee search functionality by name.
-- **Employee Management:**
-  - Add new employees with details like Name, Role, Date of Birth.
-  - Edit and delete existing employees.
-  - Confirmation prompts before deletion.
-- **Offline Storage:** Employee data is saved locally with AsyncStorage.
-- **Smooth Navigation:** Built with React Navigation.
-- **Clean Architecture:** Utilizes Redux Toolkit and React Hooks following SOLID principles.
-- **Animations:** Lottie animations for better user experience.
+You are provided with a prototype for reference. In addition to the prototype, the app implements missing user interfaces and completes all UI components according to design fidelity, including:
+
+- Add New User
+- Delete User
+- Preview User Details
+
+---
+
+## Screens and Features
+
+- **Splash Screen**  
+  Displays an initial branded loading screen with animated effects.
+
+- **Login Screen**  
+  Basic authentication with a mocked PIN, including validation of inputs.
+
+- **Main Screen**  
+  Shows a random quote fetched from the REST API `https://api.realinspire.live/v1/quotes/random`.  
+  Displays the latest 10 employees added to the app with a search functionality.
+
+- **User Management**  
+  - Add new users  
+  - Edit existing user details  
+  - Delete users  
+  - Preview user details via a modal interface  
+
+---
+
+## Technical Implementation
+
+- **Architecture**  
+  Modular Clean Architecture principles with separation of concerns and reusable components.  
+  Utilizes React Hooks, Context API, and Redux Toolkit for state management.
+
+- **Design Principles**  
+  Applied Object-Oriented Programming (OOP) and SOLID principles for maintainability and extensibility.
+
+- **Navigation**  
+  React Navigation for smooth screen transitions.
+
+- **Input Validation**  
+  Validates user input on forms such as login and add/edit user screens.
+
+- **Offline Caching**  
+  Uses Redux Toolkit with persistence to cache user data offline.
+
+- **REST API Integration**  
+  Fetches a random quote from the public API endpoint with error handling.
+
+- **Design Fidelity**  
+  Matches the prototype design closely with consistent colors, fonts, and spacing.  
+  Uses placeholder colors and styles where the prototype lacks specifics.
+
+- **Performance Optimization**  
+  Optimized for both Android and iOS platforms using best practices such as memoization, lazy loading, and efficient FlatList rendering.
 
 ---
 
 ## Screenshots
 
 ### Splash Screen  
-![Splash Screen](./screenshots/splash.png)
+![Splash Screen](./Screenshots/splash screen.jpg)
 
 ### Login Screen  
-![Login Screen](./screenshots/login.png)
+![Login Screen](./Screenshots/login page.jpg)
 
-### Main Screen with Employee List and Quote  
-![Main Screen](./screenshots/main.png)
+### Main Screen  
+![Main Screen](./Screenshots/Main Screen.jpg)
 
-### Add/Edit Employee Modal  
-![Employee Modal](./screenshots/employee-modal.png)
+### User List  
+![User List](./Screenshots/User List.jpg)
+
+### Edit User  
+![Edit User](./Screenshots/Edit User.jpg)
+
+### Delete User Confirmation  
+![Delete User](./Screenshots/Delete user.jpg)
 
 ---
 
-## Installation and Setup
+## Setup Instructions
 
-1. Clone the repository  
+1. **Clone the repository**
+
 ```bash
-git clone https://github.com/YOUR_GITHUB_USERNAME/react-native-employee-directory.git
-cd react-native-employee-directory
-````
+git clone https://github.com/hirushiRathnayake/React-Native-Job-App.git
+cd React-Native-Job-App
+```
 
-2. Install dependencies
+2. **Install dependencies**
 
 ```bash
 npm install
@@ -62,85 +112,55 @@ npm install
 yarn install
 ```
 
-3. Run the app
+3. **Run the app**
 
-* Android:
+Using Expo CLI:
 
-  ```bash
-  npx react-native run-android
-  ```
-* iOS:
+```bash
+expo start
+```
 
-  ```bash
-  npx react-native run-ios
-  ```
-* Or using Expo (if used):
-
-  ```bash
-  expo start
-  ```
-
-4. Use the predefined PIN to login: **1234**
+Scan the QR code with Expo Go on your device or launch the Android/iOS simulator.
 
 ---
 
-## API Used
+## API Endpoint
 
-* Random Quote API: [https://api.realinspire.live/v1/quotes/random](https://api.realinspire.live/v1/quotes/random)
-  This API is used to fetch and display random inspirational quotes on the main screen.
+* Random Quote API:
+  `https://api.realinspire.live/v1/quotes/random`
 
----
-
-## Technologies & Architecture
-
-* **React Native** (JavaScript/TypeScript)
-* **Redux Toolkit** for state management
-* **React Navigation** for routing
-* **AsyncStorage** for offline data persistence
-* **Axios** for API requests
-* **Lottie** for animations
-* Modular and clean architecture using React Hooks and SOLID principles.
+The app fetches a random quote on the main screen and displays it with fallback handling.
 
 ---
 
-## Contribution & Version Control
+## Git Version Control
 
-Developed with Git for version control. Meaningful commits were made after implementing each feature. The full source code is available on [GitHub](https://github.com/YOUR_GITHUB_USERNAME/react-native-employee-directory).
-
----
-
-## Author
-
-\[Your Full Name]
-Email: [your.email@example.com](mailto:your.email@example.com)
-LinkedIn: [linkedin.com/in/yourprofile](https://linkedin.com/in/yourprofile) (optional)
+* The project uses **Git** with meaningful commits after implementing each feature or screen.
+* The full commit history is available on the public GitHub repository linked below.
 
 ---
 
-## License
+## Repository Link
 
-This project was created as part of an academic assessment and is not intended for commercial use.
+[React Native Job App Repository](https://github.com/hirushiRathnayake/React-Native-Job-App)
 
 ---
 
 ## Contact
 
-Feel free to contact me via email for any questions or suggestions.
+For questions or feedback, please contact:
+**Hirushi Rathnayake**
+Email: [hirushir99@gmail.com](mailto:hirushir99@gmail.com)
 
 ---
 
-```
+## Notes
+
+* This app demonstrates modern React Native development techniques and clean architecture.
+* UI components are reusable and styled for consistency.
+* Input validation and error handling ensure a smooth user experience.
+* The app is optimized for performance on both iOS and Android platforms.
 
 ---
 
-### How to add screenshots:
-
-1. Take screenshots on your device/emulator.
-2. Create a folder named `screenshots` in your project root.
-3. Save the images as `splash.png`, `login.png`, `main.png`, etc.
-4. The markdown image syntax will load them when you view the README on GitHub.
-
----
-
-If you want, I can help you generate exact git commands to add the README and push your repo publicly. Just say the word!
-```
+Thank you for reviewing my submission.
