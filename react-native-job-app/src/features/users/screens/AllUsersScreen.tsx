@@ -9,10 +9,18 @@ import {
   Modal,
   TextInput,
   ScrollView,
+  Alert,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useAppDispatch, useAppSelector } from '../../../app/store';
-import { loadUsersFromStorage, deleteUser, User } from '../userSlice';
+
+import {
+  loadUsersFromStorage,
+  deleteUserAndSave,
+  updateUserAndSave,
+  User,
+} from '../userSlice';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 const AllUsersScreen = () => {
   const dispatch = useAppDispatch();
@@ -23,6 +31,10 @@ const AllUsersScreen = () => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
 
+  // For editing fields inside modal
+  const [editName, setEditName] = useState('');
+  const [editRole, setEditRole] = useState('');
+
   useEffect(() => {
     const loadUsers = async () => {
       await dispatch(loadUsersFromStorage());
@@ -31,22 +43,54 @@ const AllUsersScreen = () => {
     loadUsers();
   }, [dispatch]);
 
-  // Filter users by search input
   const filteredUsers = users.filter((user) =>
     user.name.toLowerCase().includes(search.toLowerCase())
   );
 
+  // Open modal and initialize edit fields
   const handleUserPress = (user: User) => {
     setSelectedUser(user);
+    setEditName(user.name);
+    setEditRole(user.role);
     setModalVisible(true);
   };
 
-  const handleDelete = () => {
-    if (selectedUser) {
-      dispatch(deleteUser(selectedUser.id));
-      setModalVisible(false);
-    }
-  };
+  const handleDelete = (user: User) => {
+  Alert.alert(
+    'Delete User',
+    `Are you sure you want to delete ${user.name}?`,
+    [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Delete',
+        style: 'destructive',
+        onPress: () => {
+          dispatch(deleteUserAndSave(user.id));
+          if (selectedUser?.id === user.id) setModalVisible(false);
+        },
+      },
+    ]
+  );
+};
+
+  // Save edited user data
+ const handleSave = () => {
+  if (!editName.trim() || !editRole.trim()) {
+    Alert.alert('Validation', 'Name and Role cannot be empty');
+    return;
+  }
+
+  if (selectedUser) {
+    dispatch(
+      updateUserAndSave({
+        ...selectedUser,
+        name: editName.trim(),
+        role: editRole.trim(),
+      })
+    );
+    setModalVisible(false);
+  }
+};
 
   if (loading) {
     return (
@@ -58,7 +102,8 @@ const AllUsersScreen = () => {
   }
 
   return (
-    <View style={styles.container}>
+   
+        <SafeAreaView style={styles.container}>
       {/* Search Bar */}
       <View style={styles.searchContainer}>
         <TextInput
@@ -83,48 +128,68 @@ const AllUsersScreen = () => {
           keyExtractor={(item) => item.id}
           contentContainerStyle={{ paddingBottom: 60 }}
           renderItem={({ item }) => (
-            <TouchableOpacity
-              style={styles.userItem}
-              onPress={() => handleUserPress(item)}
-            >
-              <Text style={styles.userName}>{item.name}</Text>
-              <Text style={styles.userRole}>{item.role}</Text>
-            </TouchableOpacity>
+            <View style={styles.userRow}>
+              <TouchableOpacity
+                style={styles.userInfo}
+                onPress={() => handleUserPress(item)}
+              >
+                <Text style={styles.userName}>{item.name}</Text>
+                <Text style={styles.userRole}>{item.role}</Text>
+              </TouchableOpacity>
+
+              <View style={styles.actionIcons}>
+                <TouchableOpacity
+                  onPress={() => {
+                    setSelectedUser(item);
+                    setEditName(item.name);
+                    setEditRole(item.role);
+                    setModalVisible(true);
+                  }}
+                  style={styles.iconBtn}
+                >
+                  <Ionicons name="pencil" size={22} color="#3182ce" />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => handleDelete(item)} style={styles.iconBtn}>
+                  <Ionicons name="trash" size={22} color="#e53e3e" />
+                </TouchableOpacity>
+              </View>
+            </View>
           )}
         />
       )}
 
-      {/* Modal for user details */}
+      {/* Modal for user details and edit */}
       <Modal visible={modalVisible} transparent animationType="fade">
         <View style={styles.modalBackground}>
           <View style={styles.modalContent}>
             <ScrollView>
-              <Text style={styles.modalTitle}>User Details</Text>
+              <Text style={styles.modalTitle}>Edit User</Text>
               {selectedUser && (
                 <>
-                  <View style={styles.detailRow}>
-                    <Text style={styles.detailLabel}>Name:</Text>
-                    <Text style={styles.detailValue}>{selectedUser.name}</Text>
-                  </View>
-                  <View style={styles.detailRow}>
-                    <Text style={styles.detailLabel}>Role:</Text>
-                    <Text style={styles.detailValue}>{selectedUser.role}</Text>
-                  </View>
-                  
-                  {/* Add more details here if needed */}
+                  <Text style={styles.inputLabel}>Name:</Text>
+                  <TextInput
+                    style={styles.input}
+                    value={editName}
+                    onChangeText={setEditName}
+                    placeholder="Enter name"
+                  />
+                  <Text style={styles.inputLabel}>Role:</Text>
+                  <TextInput
+                    style={styles.input}
+                    value={editRole}
+                    onChangeText={setEditRole}
+                    placeholder="Enter role"
+                  />
 
-                  <TouchableOpacity
-                    style={styles.deleteBtn}
-                    onPress={handleDelete}
-                  >
-                    <Text style={styles.deleteText}>Delete User</Text>
+                  <TouchableOpacity style={styles.saveBtn} onPress={handleSave}>
+                    <Text style={styles.saveText}>Save</Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity
                     style={styles.cancelBtn}
                     onPress={() => setModalVisible(false)}
                   >
-                    <Text style={styles.cancelText}>Close</Text>
+                    <Text style={styles.cancelText}>Cancel</Text>
                   </TouchableOpacity>
                 </>
               )}
@@ -132,7 +197,7 @@ const AllUsersScreen = () => {
           </View>
         </View>
       </Modal>
-    </View>
+   </SafeAreaView>
   );
 };
 
@@ -162,14 +227,20 @@ const styles = StyleSheet.create({
   searchIcon: {
     marginLeft: 8,
   },
-  userItem: {
-    padding: 16,
-    borderBottomWidth: 1,
-    borderColor: '#ddd',
-    backgroundColor: '#fafafa',
+  userRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
     marginHorizontal: 16,
-    borderRadius: 8,
     marginBottom: 8,
+    backgroundColor: '#fafafa',
+    paddingVertical: 12,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#ddd',
+  },
+  userInfo: {
+    flex: 1,
   },
   userName: {
     fontSize: 16,
@@ -179,6 +250,13 @@ const styles = StyleSheet.create({
   userRole: {
     color: '#666',
     marginTop: 4,
+  },
+  actionIcons: {
+    flexDirection: 'row',
+    marginLeft: 12,
+  },
+  iconBtn: {
+    marginLeft: 12,
   },
   loadingContainer: {
     flex: 1,
@@ -219,29 +297,29 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     textAlign: 'center',
   },
-  detailRow: {
-    flexDirection: 'row',
-    marginBottom: 16,
-    justifyContent: 'space-between',
-  },
-  detailLabel: {
+  inputLabel: {
     fontWeight: '600',
     fontSize: 16,
+    marginBottom: 6,
     color: '#444',
   },
-  detailValue: {
+  input: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
     fontSize: 16,
+    marginBottom: 16,
     color: '#222',
-    flexShrink: 1,
-    textAlign: 'right',
   },
-  deleteBtn: {
-    backgroundColor: '#e53e3e',
+  saveBtn: {
+    backgroundColor: '#3182ce',
     paddingVertical: 12,
     borderRadius: 12,
     marginTop: 10,
   },
-  deleteText: {
+  saveText: {
     color: '#fff',
     fontWeight: '700',
     textAlign: 'center',

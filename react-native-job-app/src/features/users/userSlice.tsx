@@ -29,10 +29,18 @@ const userSlice = createSlice({
     deleteUser(state, action: PayloadAction<string>) {
       state.users = state.users.filter((u) => u.id !== action.payload);
     },
+    updateUser(state, action: PayloadAction<User>) {
+      const index = state.users.findIndex((u) => u.id === action.payload.id);
+      if (index !== -1) {
+        state.users[index] = action.payload;
+      }
+    },
   },
 });
 
-export const { setUsers, addUser, deleteUser } = userSlice.actions;
+export const { setUsers, addUser, deleteUser, updateUser } = userSlice.actions;
+
+// AsyncStorage helpers
 
 export const loadUsersFromStorage = () => async (dispatch: AppDispatch) => {
   try {
@@ -52,6 +60,20 @@ export const saveUsersToStorage = (users: User[]) => async () => {
   } catch (err) {
     console.error('Failed to save users', err);
   }
+};
+
+// Combined thunk for updating and saving
+
+export const updateUserAndSave = (updatedUser: User) => (dispatch: AppDispatch, getState: () => { users: UserState }) => {
+  dispatch(updateUser(updatedUser));
+  const { users } = getState().users;
+  dispatch(saveUsersToStorage(users));
+};
+
+export const deleteUserAndSave = (userId: string) => (dispatch: AppDispatch, getState: () => { users: UserState }) => {
+  dispatch(deleteUser(userId));
+  const { users } = getState().users;
+  dispatch(saveUsersToStorage(users));
 };
 
 export default userSlice.reducer;
