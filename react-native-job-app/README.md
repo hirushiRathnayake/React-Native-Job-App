@@ -1,7 +1,7 @@
 
 # React Native Job App
 
-![App Logo](./Screenshots/Splash screen.jpg)
+![App Logo](./Screenshots/Splash%20screen.jpg)
 
 ---
 
@@ -76,22 +76,22 @@ You are provided with a prototype for reference. In addition to the prototype, t
 ## Screenshots
 
 ### Splash Screen  
-![Splash Screen](./Screenshots/splash screen.jpg)
+![Splash Screen](./Screenshots/Splash%20screen.jpg)
 
 ### Login Screen  
-![Login Screen](./Screenshots/login page.jpg)
+![Login Screen](./Screenshots/login%20page.jpg)
 
 ### Main Screen  
-![Main Screen](./Screenshots/Main Screen.jpg)
+![Main Screen](./Screenshots/Main%20Screen.jpg)
 
 ### User List  
-![User List](./Screenshots/User List.jpg)
+![User List](./Screenshots/User%20List.jpg)
 
 ### Edit User  
-![Edit User](./Screenshots/Edit User.jpg)
+![Edit User](./Screenshots/Edit%20User.jpg)
 
 ### Delete User Confirmation  
-![Delete User](./Screenshots/Delete user.jpg)
+![Delete User](./Screenshots/Delete%20user.jpg)
 
 ---
 
