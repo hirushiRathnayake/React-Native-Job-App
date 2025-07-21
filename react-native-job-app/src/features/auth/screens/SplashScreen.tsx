@@ -1,20 +1,32 @@
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
+import LottieView from 'lottie-react-native';
+
+const { width } = Dimensions.get('window');
 
 const SplashScreen = ({ navigation }: any) => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       navigation.replace('Login');
-    }, 2000); // 2-second splash
+    }, 3500); // Wait for animation
 
     return () => clearTimeout(timeout);
   }, [navigation]);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.logo}>MyApp</Text>
-      <ActivityIndicator size="large" color="#007AFF" />
-    </View>
+    <LinearGradient
+      colors={['#0f2027', '#203a43', '#2c5364']} // Beautiful gradient
+      style={styles.container}
+    >
+      <Text style={styles.title}>EMPLOYEE DIRECTORY</Text>
+      <LottieView
+        source={require('../../../assets/loading.json')} // Update path as needed
+        autoPlay
+        loop
+        style={styles.lottie}
+      />
+    </LinearGradient>
   );
 };
 
@@ -25,12 +37,17 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f2f2f2',
   },
-  logo: {
-    fontSize: 32,
+  title: {
+    fontSize: 30,
     fontWeight: 'bold',
-    marginBottom: 20,
-    color: '#007AFF',
+    color: '#ffffff',
+    marginBottom: 40,
+    textAlign: 'center',
+    letterSpacing: 1,
+  },
+  lottie: {
+    width: width * 0.5,
+    height: width * 0.5,
   },
 });
