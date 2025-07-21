@@ -20,7 +20,7 @@ import {
   updateUserAndSave,
   User,
 } from '../userSlice';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const AllUsersScreen = () => {
   const dispatch = useAppDispatch();
@@ -56,41 +56,41 @@ const AllUsersScreen = () => {
   };
 
   const handleDelete = (user: User) => {
-  Alert.alert(
-    'Delete User',
-    `Are you sure you want to delete ${user.name}?`,
-    [
-      { text: 'Cancel', style: 'cancel' },
-      {
-        text: 'Delete',
-        style: 'destructive',
-        onPress: () => {
-          dispatch(deleteUserAndSave(user.id));
-          if (selectedUser?.id === user.id) setModalVisible(false);
+    Alert.alert(
+      'Delete User',
+      `Are you sure you want to delete ${user.name}?`,
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => {
+            dispatch(deleteUserAndSave(user.id));
+            if (selectedUser?.id === user.id) setModalVisible(false);
+          },
         },
-      },
-    ]
-  );
-};
+      ]
+    );
+  };
 
   // Save edited user data
- const handleSave = () => {
-  if (!editName.trim() || !editRole.trim()) {
-    Alert.alert('Validation', 'Name and Role cannot be empty');
-    return;
-  }
+  const handleSave = () => {
+    if (!editName.trim() || !editRole.trim()) {
+      Alert.alert('Validation', 'Name and Role cannot be empty');
+      return;
+    }
 
-  if (selectedUser) {
-    dispatch(
-      updateUserAndSave({
-        ...selectedUser,
-        name: editName.trim(),
-        role: editRole.trim(),
-      })
-    );
-    setModalVisible(false);
-  }
-};
+    if (selectedUser) {
+      dispatch(
+        updateUserAndSave({
+          ...selectedUser,
+          name: editName.trim(),
+          role: editRole.trim(),
+        })
+      );
+      setModalVisible(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -102,8 +102,7 @@ const AllUsersScreen = () => {
   }
 
   return (
-   
-        <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container}>
       {/* Search Bar */}
       <View style={styles.searchContainer}>
         <TextInput
@@ -135,6 +134,7 @@ const AllUsersScreen = () => {
               >
                 <Text style={styles.userName}>{item.name}</Text>
                 <Text style={styles.userRole}>{item.role}</Text>
+                <Text style={styles.userId}>Employee ID: {item.id}</Text>
               </TouchableOpacity>
 
               <View style={styles.actionIcons}>
@@ -166,6 +166,9 @@ const AllUsersScreen = () => {
               <Text style={styles.modalTitle}>Edit User</Text>
               {selectedUser && (
                 <>
+                  <Text style={styles.inputLabel}>Employee ID:</Text>
+                  <Text style={styles.staticText}>{selectedUser.id}</Text>
+
                   <Text style={styles.inputLabel}>Name:</Text>
                   <TextInput
                     style={styles.input}
@@ -197,7 +200,7 @@ const AllUsersScreen = () => {
           </View>
         </View>
       </Modal>
-   </SafeAreaView>
+    </SafeAreaView>
   );
 };
 
@@ -251,6 +254,11 @@ const styles = StyleSheet.create({
     color: '#666',
     marginTop: 4,
   },
+  userId: {
+    color: '#888',
+    marginTop: 2,
+    fontStyle: 'italic',
+  },
   actionIcons: {
     flexDirection: 'row',
     marginLeft: 12,
@@ -302,6 +310,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 6,
     color: '#444',
+  },
+  staticText: {
+    fontSize: 16,
+    marginBottom: 12,
+    color: '#222',
   },
   input: {
     borderWidth: 1,

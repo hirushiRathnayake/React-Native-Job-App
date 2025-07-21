@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
+import { LinearGradient } from 'expo-linear-gradient';
 import LottieView from 'lottie-react-native';
 
 const { width } = Dimensions.get('window');
@@ -16,12 +16,12 @@ const SplashScreen = ({ navigation }: any) => {
 
   return (
     <LinearGradient
-      colors={['#0f2027', '#203a43', '#2c5364']} // Beautiful gradient
+      colors={['#0f2027', '#203a43', '#2c5364']}
       style={styles.container}
     >
       <Text style={styles.title}>EMPLOYEE DIRECTORY</Text>
       <LottieView
-        source={require('../../../assets/loading.json')} // Update path as needed
+        source={require('../../../assets/loading.json')} 
         autoPlay
         loop
         style={styles.lottie}
