@@ -119,6 +119,10 @@ const MainScreen = ({ navigation }: any) => {
       >
         <Text style={styles.floatingButtonText}>Add new Employee</Text>
       </TouchableOpacity>
+      <TouchableOpacity style={styles.showAllButton} onPress={() => navigation.navigate('AllUsers')}>
+  <Text style={styles.showAllButtonText}>Show All Users</Text>
+</TouchableOpacity>
+
     </SafeAreaView>
   );
 };
@@ -198,7 +202,7 @@ const styles = StyleSheet.create({
   },
   floatingButton: {
     position: 'absolute',
-    bottom: 60,
+    bottom: 130,
     alignSelf: 'center',
     backgroundColor: '#000',
     paddingHorizontal: 24,
@@ -211,4 +215,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
+  showAllButton: {
+  backgroundColor: '#000',
+   bottom: 0,
+  padding: 12,
+  borderRadius: 8,
+  alignItems: 'center',
+  marginBottom: 12,
+  width: '98%',
+},
+showAllButtonText: {
+  color: '#fff',
+  fontWeight: 'bold',
+},
+
 });

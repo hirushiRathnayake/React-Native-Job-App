@@ -6,6 +6,7 @@ import SplashScreen from '../../features/auth/screens/SplashScreen';
 import LoginScreen from '../../features/auth/screens/LoginScreen';
 import MainScreen from '../../features/users/screens/MainScreen';
 import AddUserScreen from '../../features/users/screens/AddUserScreen';
+import AllUsersScreen from '../../features/users/screens/AllUsersScreen';
 
 
 
@@ -19,6 +20,7 @@ export default function AppNavigator() {
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Main" component={MainScreen} />
         <Stack.Screen name="AddUser" component={AddUserScreen} />
+        <Stack.Screen name="AllUsers" component={AllUsersScreen} options={{ title: 'All Users' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
